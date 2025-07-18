@@ -22,15 +22,12 @@ data <- read.csv("Pooled R data on embryo count.csv")
 # Shapiro-Wilk test for normality of eggs per snail
 shapiro_test <- shapiro.test(data$Embryos)
 
-# Check results (if p<0.05, data is NOT normally distributed)
+# Check results 
 print(shapiro_test)
 
-# Perform a Levene's test (if p<0.05, variances are NOT equal)
+# Perform a Levene's test 
 leveneTest(Embryos ~ Diet, data = data)
 
-# If data are not? normally distributed but with EQUAL variance, use Kruskal-Wallis
-# Here, Kruskal-Wallis identified no sig. dif. (wierd!). Because Shapiro p value
-#was really close to 0.05 and variance was equal, ANOVA was tried.
 anova_result <- aov(Embryos ~ Diet, data = data)
 
 anova_result
