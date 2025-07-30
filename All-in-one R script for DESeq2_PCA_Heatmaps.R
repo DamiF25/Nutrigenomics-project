@@ -9,7 +9,6 @@ install.packages("pheatmap")
 install.packages("RColorBrewer")
 BiocManager::install()
 
-
 #Load libraries
 
 library(DESeq2)
@@ -20,7 +19,6 @@ library(dplyr)
 library(pheatmap)
 library(RColorBrewer)
 library(BiocManager)
-
 
 #Set work directory
 
@@ -60,7 +58,6 @@ keep <- rowSums(counts(dds) >=10) >= smallestGroupSize
 dds <- dds[keep,]
 
 nrow(dds)
-
 
 #Set factor levels
 factors <- factor(sample_info$Diet)
@@ -124,7 +121,6 @@ class(res)
 #To check the DESeq result components
 resultsNames(dds)
 
-
 #############DATA VISUALISATION#####################################
 
 #Volcano plot for DEGs
@@ -166,7 +162,6 @@ resLFC <- lfcShrink(dds,coef="Diet_FF._vs_FL",type="apeglm")
 #Plot MA without noise
 plotMA(resLFC,ylim=c(-5,5))
 
-
 #Variance stabilizing transformation#Variancesample() stabilizing transformation
 vsd <- vst(dds,blind=FALSE)
 
@@ -178,7 +173,6 @@ dim(vsd)
 plotPCA(vsd,intgroup=c("Diet"))
 
 pcaData <- plotPCA(vsd,intgroup=c("Diet"))
-
 
 #Extract the data used in the PCA plot
 pca_data <- pcaData$data
@@ -197,8 +191,6 @@ ggplot(pca_data, aes(PC1, PC2, colour = Diet)) +
 # Save the final figure
 ggsave("PCA plot.tiff", width = 8, height = 6.43, dpi = 300)
 
-
-
 #Heatmaps
 
 #Heatmap of sample-to-sample distance matrix (with clustering) based on vsd
@@ -214,15 +206,12 @@ colors <- colorRampPalette(rev(brewer.pal(9,"Blues")))(255)
 #You can also use customised color scheme (if this preferred, change 'col=colors' to 'col=my_colors' below)
 my_colors <- colorRampPalette(c("#3f447d","#ffffff"))(255)  
 
-
 #Generate the heatmap
 pheatmap(sampleDistMatrix, annotation_col = sample_info, clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists, col=colors)
 
 #Or run
 pheatmap(sampleDistMatrix, annotation_col = sample_info)
-
-
 
 #To modify Diet color as preferred, using the annotation_colors parameter 
 Diet_df <- data.frame(Diet= rep(c("FF", "FL"), c(6,5))) #Numeric values represent number of samples in each group
@@ -275,7 +264,6 @@ pheatmap(all_hits, annotation_col = sample_info)
 #OR add annotation without clustering
 pheatmap(all_hits,cluster_rows=FALSE,cluster_cols=FALSE,annotation_col = sample_info)
 
-
 #Generate heatmap of Z scores using the all hits
 cal_z_score <- function(x) {(x-mean(x)) / sd(x)}
 
@@ -294,7 +282,6 @@ colors <- colorRampPalette(rev(brewer.pal(9,"RdGy")))(255)
 #Regenerate heatmap
 pheatmap(zscore_all,cluster_rows=TRUE,cluster_cols=TRUE,show_rownames = FALSE, annotation_col = sample_info, col=colors)
 
-
 #To modify Diet color as preferred, using the annotation_colors parameter 
 
 colors <- colorRampPalette(rev(brewer.pal(9,"RdYlBu")))(255)
@@ -305,7 +292,6 @@ ann_colors = list(Diet = c("SG" = "#0a5fb5", "FF" = "#990906", "FL" = "#000000")
 
 row.names(Diet_df) <- colnames(zscore_all)
 
-
 #Regenerate heatmap
 
 pheatmap(zscore_all,cluster_rows=TRUE,cluster_cols=TRUE,show_rownames = FALSE,
@@ -314,7 +300,6 @@ pheatmap(zscore_all,cluster_rows=TRUE,cluster_cols=TRUE,show_rownames = FALSE,
          fontsize_row = 10,        # font size for row labels
          fontsize_col = 10        # font size for column labels
 )
-
 
 #HEATMAP FOR TOP 50 DEGs 
 
@@ -340,7 +325,6 @@ pheatmap(top_hits)
 #To add annotation
 pheatmap(top_hits, annotation_col = sample_info)
 
-
 #To modify Diet color using the annotation_colors parameter 
 
 colors <- colorRampPalette(rev(brewer.pal(9,"RdBu")))(255)
@@ -353,7 +337,6 @@ Diet_df <- data.frame(Diet= rep(c("FF", "FL"), c(6,5)))
 ann_colors = list(Diet = c("FF" = "#990906", "FL" = "#000000"))
 
 row.names(Diet_df) <- colnames(top_hits)
-
 
 #Regenerate heatmap
 pheatmap(top_hits, cluster_rows=TRUE,cluster_cols=TRUE,show_rownames = TRUE,
@@ -372,4 +355,3 @@ pheatmap(top_hits, scale = "row", cluster_rows=TRUE,cluster_cols=TRUE,show_rowna
          cutree_cols=2, cutree_rows=2)
 
 #use 575W x 949H for image export
-
