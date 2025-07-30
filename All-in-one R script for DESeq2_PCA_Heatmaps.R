@@ -195,7 +195,7 @@ ggplot(pca_data, aes(PC1, PC2, colour = Diet)) +
   theme(legend.text = element_text(size = 16), legend.title = element_text(size = 18))
 
 # Save the final figure
-ggsave("PCA plot_grey.tiff", width = 8, height = 6.43, dpi = 300)
+ggsave("PCA plot.tiff", width = 8, height = 6.43, dpi = 300)
 
 
 
