@@ -26,6 +26,20 @@ week_8_data$Diet <- factor(week_8_data$Diet)  # Ensure Diet is a factor
 str(week_8_data$Diet)
 levels(week_8_data$Diet)
 
+# Summary statistics for each Diet group
+summary_stats <- week_8_data %>%
+  group_by(Diet) %>%
+  summarise(
+    n = n(),
+    mean = mean(Size, na.rm = TRUE),
+    sd = sd(Size, na.rm = TRUE),
+    sem = sd / sqrt(n),  # Standard Error of the Mean
+    ci_low = mean - sem * qt(0.975, df = n - 1),
+    ci_high = mean + sem * qt(0.975, df = n - 1))  # 95% Confidence Interval
+
+# View the summary statistics
+print(summary_stats)
+
 # Perform Shapiro_Wilk normality test for each Diet at Week 8
 normality_test_results <- week_8_data %>%
   group_by(Diet) %>%
