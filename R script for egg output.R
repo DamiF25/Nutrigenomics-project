@@ -6,7 +6,6 @@ install.packages("car")
 install.packages("multcompView") #To extract Tukey's test result
 install.packages("ggstatsplot")
 
-
 # Load necessary libraries
 library(ggplot2)
 library(ggpubr)
@@ -31,7 +30,6 @@ leveneTest(Eggs ~ Diet, data = data)
 
 # If data are normally distributed, and variances are equal, we can use ANOVA
 anova_result <- aov(Eggs ~ Diet, data = data)
-
 anova_result
 
 # Perform Tukey's post hoc test (all groups vs each other)
@@ -59,10 +57,17 @@ significant_comparisons <- tukey_annotations %>%
 
 print(significant_comparisons)
 
-
 # Round p-values to 3 decimal places
 significant_comparisons$p.adj <- round(significant_comparisons$p.adj, 3)
 
+# Calculate mean and standard error for each Diet group
+data_summary <- data %>%
+  group_by(Diet) %>%
+  summarise(
+    mean_eggs = mean(Eggs),
+    se_eggs = sd(Eggs) / sqrt(n())  # Standard error
+  )
+View(data_summary)
 
 # Box plot with significant comparisons
 boxplot <- ggplot(data, aes(x = Diet, y = Eggs)) +
@@ -87,3 +92,4 @@ print(boxplot)
 
 # Save the final figure
 ggsave("Average egg mass count.png", width = 7, height = 6.5, dpi = 300)
+
