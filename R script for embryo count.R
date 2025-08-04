@@ -29,7 +29,6 @@ print(shapiro_test)
 leveneTest(Embryos ~ Diet, data = data)
 
 anova_result <- aov(Embryos ~ Diet, data = data)
-
 anova_result
 
 # Perform Tukey's post hoc test (all groups vs each other)
@@ -54,13 +53,19 @@ tukey_annotations <- data.frame(
 # Filter significant comparisons
 significant_comparisons <- tukey_annotations %>%
   filter(p.adj < 0.05)
-
 print(significant_comparisons)
-
 
 # Round p-values to 3 decimal places
 significant_comparisons$p.adj <- round(significant_comparisons$p.adj, 3)
 
+# Calculate mean and standard error for each Diet group
+data_summary <- data %>%
+  group_by(Diet) %>%
+  summarise(
+    mean_embryos = mean(Embryos),
+    se_embryos = sd(Embryos) / sqrt(n())  # Standard error
+  )
+View(data_summary)
 
 # Box plot with significant comparisons
 boxplot <- ggplot(data, aes(x = Diet, y = Embryos)) +
@@ -86,4 +91,5 @@ print(boxplot)
 
 # Save the final figure
 ggsave("Average embryo count.png", width = 7, height = 6.5, dpi = 300)
+
 
