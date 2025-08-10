@@ -23,7 +23,7 @@ library(BiocManager)
 #Set work directory
 
 #Load count data
-count_data <- read.csv("FL_vs_FF_Gene_count_matrix.csv",header=TRUE,row.names=1)
+count_data <- read.csv("Gene_count_matrix.csv",header=TRUE,row.names=1)
 
 #Check
 colnames(count_data)
@@ -31,7 +31,7 @@ head(count_data)
 dim(count_data)
 
 #Load sample information
-sample_info <- read.csv("FL_vs_FF_PHENO_DATA.csv",header=TRUE,row.name=1) 
+sample_info <- read.csv("PHENO_DATA.csv",header=TRUE,row.name=1) 
 
 #Check
 colnames(sample_info)
@@ -214,13 +214,13 @@ pheatmap(sampleDistMatrix, annotation_col = Diet_df, clustering_distance_rows=vs
 
 #Extract normalised counts from the DESeq result
 normCounts <- counts(dds, normalized = T)
-write.csv(normCounts, "FL_FF_NormGene_count_matrix_final.csv")
+write.csv(normCounts, "NormGene_count_matrix_final.csv")
 
 #Log transformation (transform normalised counts) to avoid high expression values 
 #to dominate the plot
 transCounts <- log2(normCounts+1)
 head(transCounts)
-write.csv(transCounts, "FL_FF_TransGene_count_matrix_final.csv")
+write.csv(transCounts, "TransGene_count_matrix_final.csv")
 all_hits <- row.names(deg)
 all_hits
 
@@ -383,3 +383,4 @@ pheatmap(top_hits, scale = "row", cluster_rows=TRUE,cluster_cols=TRUE,show_rowna
 
 
 #use 575W x 949H for image exports
+
