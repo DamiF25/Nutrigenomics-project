@@ -214,13 +214,13 @@ pheatmap(sampleDistMatrix, annotation_col = Diet_df, clustering_distance_rows=vs
 
 #Extract normalised counts from the DESeq result
 normCounts <- counts(dds, normalized = T)
-write.csv(normCounts, "NormGene_count_matrix_final.csv")
+write.csv(normCounts, "FL_FF_NormGene_count_matrix_final.csv")
 
 #Log transformation (transform normalised counts) to avoid high expression values 
 #to dominate the plot
 transCounts <- log2(normCounts+1)
 head(transCounts)
-write.csv(transCounts, "TransGene_count_matrix_final.csv")
+write.csv(transCounts, "FL_FF_TransGene_count_matrix_final.csv")
 all_hits <- row.names(deg)
 all_hits
 
@@ -380,5 +380,6 @@ pheatmap(top_hits, scale = "row", cluster_rows=TRUE,cluster_cols=TRUE,show_rowna
 pheatmap(top_hits, scale = "row", cluster_rows=TRUE,cluster_cols=TRUE,show_rownames = TRUE,
          annotation_col = Diet_df,col=my_colors,annotation_colors = ann_colors,
          cutree_cols=2, cutree_rows=2)
+
 
 #use 575W x 949H for image exports
