@@ -2,7 +2,6 @@
 install.packages("DESeq2")
 install.packages("tidyverse")
 install.packages("ggplot2")
-install.packages("ggrepel")
 install.packages("dplyr")
 install.packages("pheatmap")
 install.packages("vegan")
@@ -13,7 +12,6 @@ BiocManager::install()
 library(DESeq2)
 library(tidyverse)
 library(ggplot2)
-library(ggrepel)
 library(dplyr)
 library(pheatmap)
 library(vegan)
@@ -383,4 +381,5 @@ pheatmap(top_hits, scale = "row", cluster_rows=TRUE,cluster_cols=TRUE,show_rowna
 
 
 #use 575W x 949H for image exports
+
 
